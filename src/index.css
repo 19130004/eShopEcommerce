@@ -315,7 +315,10 @@ p {
   color: #fff;
   background: #28a745;
 }
-
+.--btn-white {
+  color: #333;
+  background: #fff;
+}
 /* Background */
 .--bg-light {
   background: #fff;
