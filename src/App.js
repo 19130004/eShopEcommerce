@@ -8,6 +8,7 @@ import { Home, Contact, Login, Register, Reset, Admin } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
+import ProductDetails from "./components/product/productDetails/ProductDetails";
 import store from "./redux/store";
 import AdminOnlyRoute from "./components/adminOnlyRoute/AdminOnlyRoute";
 function App() {
@@ -30,6 +31,7 @@ function App() {
                 </AdminOnlyRoute>
               }
             />
+            <Route path="/product-details/:id" element={<ProductDetails />} />
           </Routes>
           <Footer />
           <ToastContainer />
