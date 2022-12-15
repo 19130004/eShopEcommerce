@@ -55,7 +55,6 @@ const filterSlice = createSlice({
           (product) => product.category === category
         );
       }
-      console.log(tempProducts);
       state.filteredProducts = tempProducts;
     },
     FILTER_BY_BRAND(state, action) {

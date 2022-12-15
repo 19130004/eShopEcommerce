@@ -12,12 +12,22 @@ import styles from "./auth.module.scss";
 import loginImg from "../../assets/login.png";
 import { auth } from "../../firebase/config";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { selectPreviousURL } from "../../redux/slice/cartSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const previousURL = useSelector(selectPreviousURL);
+  const redirectUser = () => {
+    if (previousURL.includes("cart")) {
+      navigate("/cart");
+    } else {
+      navigate("/");
+    }
+  };
   const loginUser = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -28,7 +38,7 @@ const Login = () => {
         // ...
         setIsLoading(false);
         toast.success("Login Successful...");
-        navigate("/");
+        redirectUser();
       })
       .catch((error) => {
         setIsLoading(false);
@@ -41,7 +51,7 @@ const Login = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         toast.success("Login Successful...");
-        navigate("/");
+        redirectUser();
       })
       .catch((error) => {
         // Handle Errors here.
