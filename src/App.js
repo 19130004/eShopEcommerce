@@ -12,6 +12,7 @@ import {
   Admin,
   Checkout,
   CheckoutDetails,
+  CheckoutSuccess,
 } from "./pages";
 // Toastify
 import { ToastContainer } from "react-toastify";
@@ -46,6 +47,7 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout-details" element={<CheckoutDetails />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/checkout-success" element={<CheckoutSuccess />} />
           </Routes>
 
           <Footer />
