@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { doc, deleteDoc } from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { db, storage } from "../../../firebase/config";
 import styles from "./ViewProducts.module.scss";
-import { toast } from "react-toastify";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import Loader from "../../loader/Loader";
 import { deleteObject, ref } from "firebase/storage";
 import Notiflix from "notiflix";
@@ -14,10 +14,30 @@ import {
   STORE_PRODUCTS,
 } from "../../../redux/slice/productSlice";
 import useFetchCollection from "../../../customHooks/useFetchCollection";
+import {
+  FILTER_BY_SEARCH,
+  selectFilteredProducts,
+} from "../../../redux/slice/filterSlice";
+import Search from "../../search/Search";
+import Pagination from "../../pagination/Pagination";
+
 const ViewProducts = () => {
-  const products = useSelector(selectProducts);
-  const dispatch = useDispatch();
+  const [search, setSearch] = useState("");
   const { data, isLoading } = useFetchCollection("products");
+  const products = useSelector(selectProducts);
+  const filteredProducts = useSelector(selectFilteredProducts);
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage, setProductsPerPage] = useState(10);
+  // Get Current Products
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(
       STORE_PRODUCTS({
@@ -25,6 +45,11 @@ const ViewProducts = () => {
       })
     );
   }, [dispatch, data]);
+
+  useEffect(() => {
+    dispatch(FILTER_BY_SEARCH({ products, search }));
+  }, [dispatch, products, search]);
+
   const confirmDelete = (id, imageURL) => {
     Notiflix.Confirm.show(
       "Delete Product!!!",
@@ -46,21 +71,34 @@ const ViewProducts = () => {
       }
     );
   };
+
   const deleteProduct = async (id, imageURL) => {
     try {
       await deleteDoc(doc(db, "products", id));
+
       const storageRef = ref(storage, imageURL);
-      deleteObject(storageRef);
-      toast.success("Product deleted successfully");
-    } catch (error) {}
+      await deleteObject(storageRef);
+      toast.success("Product deleted successfully.");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
+
   return (
-    <React.Fragment>
+    <>
       {isLoading && <Loader />}
       <div className={styles.table}>
         <h2>All Products</h2>
-        {products.length === 0 ? (
-          <h3>No Products</h3>
+
+        <div className={styles.search}>
+          <p>
+            <b>{filteredProducts.length}</b> products found
+          </p>
+          <Search value={search} onChange={(e) => setSearch(e.target.value)} />
+        </div>
+
+        {filteredProducts.length === 0 ? (
+          <p>No product found.</p>
         ) : (
           <table>
             <thead>
@@ -74,7 +112,7 @@ const ViewProducts = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product, index) => {
+              {currentProducts.map((product, index) => {
                 const { id, name, price, imageURL, category } = product;
                 return (
                   <tr key={id}>
@@ -106,8 +144,14 @@ const ViewProducts = () => {
             </tbody>
           </table>
         )}
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          productsPerPage={productsPerPage}
+          totalProducts={filteredProducts.length}
+        />
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

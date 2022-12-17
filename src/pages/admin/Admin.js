@@ -5,6 +5,8 @@ import Home from "../../components/admin/home/Home";
 import AddProduct from "../../components/admin/addProduct/AddProduct";
 import styles from "./Admin.module.scss";
 import ViewProducts from "../../components/admin/viewProducts/ViewProducts";
+import Orders from "../../components/admin/orders/Orders";
+import OrderDetails from "../../components/admin/orderDetails/OrderDetails";
 const Admin = () => {
   return (
     <div className={styles.admin}>
@@ -13,9 +15,11 @@ const Admin = () => {
       </div>
       <div className={styles.content}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="add-product/:id" element={<AddProduct />} />
           <Route path="all-products" element={<ViewProducts />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="order-details/:id" element={<OrderDetails />} />
         </Routes>
       </div>
     </div>

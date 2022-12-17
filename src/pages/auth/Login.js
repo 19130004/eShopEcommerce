@@ -50,6 +50,13 @@ const Login = () => {
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
+        // console.log(auth.currentUser);
+        // console log the user
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const token = credential.accessToken;
+        const user = result.user;
+        // ...
+        console.log(user);
         toast.success("Login Successful...");
         redirectUser();
       })

@@ -13,6 +13,9 @@ import {
   Checkout,
   CheckoutDetails,
   CheckoutSuccess,
+  OrderHistory,
+  OrderDetails,
+  NotFound,
 } from "./pages";
 // Toastify
 import { ToastContainer } from "react-toastify";
@@ -22,6 +25,7 @@ import ProductDetails from "./components/product/productDetails/ProductDetails";
 import store from "./redux/store";
 import AdminOnlyRoute from "./components/adminOnlyRoute/AdminOnlyRoute";
 import Cart from "./pages/cart/Cart";
+import ReviewProducts from "./components/reviewProducts/ReviewProducts";
 
 function App() {
   return (
@@ -48,6 +52,10 @@ function App() {
             <Route path="/checkout-details" element={<CheckoutDetails />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/checkout-success" element={<CheckoutSuccess />} />
+            <Route path="/order-history" element={<OrderHistory />} />
+            <Route path="/order-details/:id" element={<OrderDetails />} />
+            <Route path="/review-product/:id" element={<ReviewProducts />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
 
           <Footer />
