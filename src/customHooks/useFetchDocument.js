@@ -1,8 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { db } from "../firebase/config";
-import React from "react";
 
 const useFetchDocument = (collectionName, documentID) => {
   const [document, setDocument] = useState(null);

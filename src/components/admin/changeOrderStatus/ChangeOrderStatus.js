@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Card from "../../card/Card";
 import Loader from "../../loader/Loader";
 import styles from "./ChangeOrderStatus.module.scss";
-import { collection, doc, setDoc, Timestamp } from "firebase/firestore";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../../firebase/config";
 import { toast } from "react-toastify";
 const ChangeOrderStatus = ({ order, id }) => {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Card from "../../card/Card";
