@@ -36,17 +36,20 @@ const Checkout = () => {
   useEffect(() => {
     // http://localhost:4242/create-payment-intent
     // Create PaymentIntent as soon as the page loads
-    fetch("http://localhost:4242/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        items: cartItems,
-        userEmail: customerEmail,
-        shipping: shippingAddress,
-        billing: billingAddress,
-        description,
-      }),
-    })
+    fetch(
+      "https://e-shop-ecommerce-reactjs-1koujgygw-19130004.vercel.app/create-payment-intent",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: cartItems,
+          userEmail: customerEmail,
+          shipping: shippingAddress,
+          billing: billingAddress,
+          description,
+        }),
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
